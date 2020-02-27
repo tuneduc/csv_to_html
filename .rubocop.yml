@@ -1,0 +1,9 @@
+AllCops:
+  TargetRubyVersion: 2.6
+
+Metrics/LineLength:
+  Exclude:
+    - csv_to_html.gemspec
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
