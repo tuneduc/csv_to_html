@@ -1,6 +1,5 @@
 require 'csv_to_html/version'
+require 'csv_to_html/cli'
 
 module CsvToHtml
-  class Error < StandardError; end
-  # Your code goes here...
 end
