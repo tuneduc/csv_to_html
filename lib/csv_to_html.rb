@@ -1,4 +1,4 @@
-require "csv_to_html/version"
+require 'csv_to_html/version'
 
 module CsvToHtml
   class Error < StandardError; end
