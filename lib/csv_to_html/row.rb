@@ -7,5 +7,9 @@ module CsvToHtml
         end
       end
     end
+
+    def render(template)
+      template.result(binding)
+    end
   end
 end
