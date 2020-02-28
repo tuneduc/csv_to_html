@@ -19,7 +19,7 @@ RSpec.describe CsvToHtml::Row do
   end
 
   describe '#render' do
-    let!(:html) { 'The id is <%= id %> and the name is <%= name %>' }
+    let!(:erb) { 'The id is <%= id %> and the name is <%= name %>' }
     let!(:template) { ERB.new(html) }
     let!(:output) do
       "The id is #{csv_row['id']} and the name is #{csv_row['name']}"
