@@ -50,21 +50,42 @@ RSpec.describe CsvToHtml::CLI do
       before do
         FakeFS::FileSystem.clone fixtures_path
         FileUtils.mkdir_p output_path
-
-        subject.build(erb_path, csv_path, output_path)
       end
 
-      it 'creates files in desired path' do
-        expect(file_list.size).to eq 3
-        expect(file_list).to include "#{output_path}/1.html"
-        expect(file_list).to include "#{output_path}/2.html"
-        expect(file_list).to include "#{output_path}/3.html"
+      context 'Default delimiter' do
+        before do
+          subject.invoke(:build, [erb_path, csv_path, output_path])
+        end
+
+        it 'creates files in desired path' do
+          expect(file_list.size).to eq 3
+          expect(file_list).to include "#{output_path}/1.html"
+          expect(file_list).to include "#{output_path}/2.html"
+          expect(file_list).to include "#{output_path}/3.html"
+        end
+
+        it 'generates correct output' do
+          file_list.each do |output|
+            expect(File.read(output)).to eq \
+              File.read("#{fixtures_path}/output/#{File.basename(output)}")
+          end
+        end
       end
 
-      it 'generates correct output' do
-        file_list.each do |output|
-          expect(File.read(output)).to eq \
-            File.read("#{fixtures_path}/output/#{File.basename(output)}")
+      context 'Different delimiter' do
+        let!(:csv) { "id;name\n1;Paul" }
+
+        before do
+          File.write csv_path, csv
+
+          subject.invoke(:build, [erb_path, csv_path, output_path],
+                         delimiter: ';')
+        end
+
+        it 'reads the csv with specified delimiter' do
+          expect(file_list.size).to eq 1
+          expect(File.read("#{output_path}/1.html")).to eq \
+            File.read("#{fixtures_path}/output/1.html")
         end
       end
     end
