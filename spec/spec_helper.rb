@@ -1,3 +1,16 @@
+require 'simplecov'
+
+SimpleCov.start do
+  add_filter 'spec/'
+  add_filter 'lib/kashi/version'
+
+  add_group 'Libraries', 'lib/'
+
+  track_files '{lib}/**/*.rb'
+end
+
+SimpleCov.minimum_coverage 95
+
 require 'bundler/setup'
 require 'csv_to_html'
 
