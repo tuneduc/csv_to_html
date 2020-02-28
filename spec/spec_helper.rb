@@ -12,6 +12,7 @@ end
 SimpleCov.minimum_coverage 95
 
 require 'bundler/setup'
+require 'pry'
 require 'csv_to_html'
 
 RSpec.configure do |config|
