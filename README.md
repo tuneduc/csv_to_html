@@ -1,8 +1,8 @@
 # csv_to_html
 
-A gem to automate generation of HTML files from an erb template and a csv.
+A gem to automate generation of HTML files from an ERB template and a CSV.
 
-The advantage here is that your template can treat the csv columns as methods, abstracting implementation details.
+The advantage here is that your template can treat the CSV columns as methods, abstracting implementation details.
 
 ## Installation
 
