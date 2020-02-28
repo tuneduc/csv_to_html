@@ -2,7 +2,7 @@ require 'simplecov'
 
 SimpleCov.start do
   add_filter 'spec/'
-  add_filter 'lib/kashi/version'
+  add_filter 'lib/csv_to_html/version'
 
   add_group 'Libraries', 'lib/'
 
