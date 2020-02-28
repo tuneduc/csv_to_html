@@ -88,6 +88,20 @@ RSpec.describe CsvToHtml::CLI do
             File.read("#{fixtures_path}/output/1.html")
         end
       end
+
+      context 'Filename column' do
+        before do
+          subject.invoke(:build, [erb_path, csv_path, output_path],
+                         'filename-col': 'name')
+        end
+
+        it 'uses filename_col as filename' do
+          expect(file_list.size).to eq 3
+          expect(file_list).to include "#{output_path}/Paul.html"
+          expect(file_list).to include "#{output_path}/John.html"
+          expect(file_list).to include "#{output_path}/Anne.html"
+        end
+      end
     end
   end
 end
