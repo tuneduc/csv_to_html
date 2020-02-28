@@ -6,7 +6,11 @@ The advantage here is that your template can treat the CSV columns as methods, a
 
 ## Installation
 
-# TODO
+Clone this repository and run:
+
+`$ rake install`
+
+Or alternatively use something like [specific_install](https://github.com/rdp/specific_install).
 
 ## Usage
 
