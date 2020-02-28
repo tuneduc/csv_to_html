@@ -12,13 +12,7 @@ module CsvToHtml
     desc 'build ERB_TEMPLATE CSV OUTPUT_PATH',
          'Build files from the ERB template and CSV file'
     def build(erb_path, csv_path, output_path)
-      raise Thor::Error, 'ERB template file not found!' \
-        unless File.exist? erb_path
-
-      raise Thor::Error, 'CSV file not found!' unless File.exist? csv_path
-
-      raise Thor::Error, 'Output path not a directory!' \
-        unless Dir.exist? output_path
+      validate_input(erb_path, csv_path, output_path)
 
       erb = ERB.new File.read(erb_path)
 
@@ -26,6 +20,21 @@ module CsvToHtml
         row_output = CsvToHtml::Row.new(row).render(erb)
         File.write "#{output_path}/#{i}.html", row_output
       end
+    end
+
+    private
+
+    def validate_input(erb_path, csv_path, output_path)
+      errors = {
+        'ERB template not found' => !File.exist?(erb_path),
+        'CSV file not found' => !File.exist?(csv_path),
+        'Output directory not found' => !Dir.exist?(output_path)
+      }
+
+      return unless errors.values.any?
+
+      raise Thor::Error, 'The following errors occured:\n' \
+                         "#{errors.select { |_k, v| v }.keys.join('\n')}"
     end
   end
 end

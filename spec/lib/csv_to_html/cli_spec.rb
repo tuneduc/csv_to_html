@@ -16,22 +16,28 @@ RSpec.describe CsvToHtml::CLI do
       let!(:wrong_erb_path) { 'spec/this/is/not/a/file' }
       let!(:wrong_csv_path) { 'spec/this/is/not/a/file' }
       let!(:wrong_output_path) { 'spec/this/is/not/a/dir' }
+      let!(:error_prefix) { 'The following errors occured:\n' }
+      let!(:erb_error) { 'ERB template not found' }
+      let!(:csv_error) { 'CSV file not found' }
+      let!(:output_error) { 'Output directory not found' }
 
-      it 'raises error for wrong erb path' do
+      it 'raises error for three wrong arguments' do
         expect do
           subject.build(wrong_erb_path, wrong_csv_path, wrong_output_path)
-        end.to raise_error Thor::Error, 'ERB template file not found!'
+        end.to raise_error Thor::Error, "#{error_prefix}#{erb_error}\\n" \
+                                        "#{csv_error}\\n#{output_error}"
       end
 
-      it 'raises error for wrong csv path' do
+      it 'raises error for two wrong arguments' do
         expect do
           subject.build(erb_path, wrong_csv_path, wrong_output_path)
-        end.to raise_error Thor::Error, 'CSV file not found!'
+        end.to raise_error Thor::Error, "#{error_prefix}#{csv_error}\\n" \
+                                        "#{output_error}"
       end
 
-      it 'raises error for wrong csv path' do
+      it 'raises error for one wrong argument' do
         expect { subject.build(erb_path, csv_path, wrong_output_path) }.to \
-          raise_error Thor::Error, 'Output path not a directory!'
+          raise_error Thor::Error, "#{error_prefix}#{output_error}"
       end
     end
 
