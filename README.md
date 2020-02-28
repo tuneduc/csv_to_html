@@ -14,7 +14,54 @@ Or alternatively use something like [specific_install](https://github.com/rdp/sp
 
 ## Usage
 
-# TODO
+csv_to_html accepts the build command:
+
+`$ csv_to_html build template.html.erb input.csv output_dir/`
+
+Which will generate a HTML file for every row in `input.csv`, using
+`template.html.erb` as the template, in the `output_dir/` directory.
+
+Let's say you have the following template:
+
+```erb
+<h1><%= title %></h1>
+
+<p><%= first_paragraph %></p>
+
+<img src="<%= img_src %>">
+
+<p><%= second_paragraph %></p>
+```
+
+Where some necessary HTML tags are excluded for simplicity.
+
+And the following CSV:
+
+```
+title,first_paragraph,img_src,second_paragraph
+Title,A paragragh,imgsite.com/myimage.png,Another paragraph
+```
+
+And you run the command above, you'll end up with the following HTML file
+in your `output_dir/`:
+
+```html
+<h1>Title</h1>
+
+<p>A paragraph</p>
+
+<img src="imgsite.com/myimage.png">
+
+<p>Another paragraph</p>
+```
+
+
+### Optional parameters
+
+`build` accepts two optional parameters:
+  - --delimiter (-d), sets CSV delimiter (`,` by default)
+  - --filename-col (-c), sets a column to use as HTML filename (CSV row number
+  otherwise)
 
 ## Development
 
