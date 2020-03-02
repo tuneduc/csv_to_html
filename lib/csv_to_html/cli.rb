@@ -13,16 +13,21 @@ module CsvToHtml
          'Build files from the ERB template and CSV file'
     method_option :delimiter, aliases: '-d', default: ',',
                               desc: 'Set CSV delimiter'
+    method_option :'filename-col', aliases: '-c',
+                                   desc: 'Set column to use as filename'
     def build(erb_path, csv_path, output_path)
       validate_input(erb_path, csv_path, output_path)
 
       erb = ERB.new File.read(erb_path)
 
       csv_options = { headers: true, col_sep: options[:delimiter] }
+      filename_col = options[:'filename-col']
 
       CSV.foreach(csv_path, csv_options).with_index(1) do |row, i|
-        row_output = CsvToHtml::Row.new(row).render(erb)
-        File.write "#{output_path}/#{i}.html", row_output
+        row = CsvToHtml::Row.new(row)
+        filename = filename_col ? row.send(filename_col) : i
+
+        File.write "#{output_path}/#{filename}.html", row.render(erb)
       end
     end
 
