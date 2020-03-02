@@ -1,6 +1,5 @@
 require 'spec_helper'
 require 'csv'
-require 'csv_to_html/row'
 
 RSpec.describe CsvToHtml::Row do
   let!(:csv) { CSV.read 'spec/fixtures/people.csv', headers: true }

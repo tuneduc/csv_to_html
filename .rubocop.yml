@@ -10,3 +10,8 @@ Style/FrozenStringLiteralComment:
 
 Documentation:
   Enabled: false
+
+Metrics/BlockLength:
+  Max: 30
+  Exclude:
+    - spec/**/*
