@@ -9,8 +9,8 @@ RSpec.describe CsvToHtml::CLI do
 
   describe '#build' do
     let!(:fixtures_path) { File.expand_path '../../fixtures', __dir__ }
-    let!(:erb_path) { "#{fixtures_path}/person.html.erb" }
-    let!(:csv_path) { "#{fixtures_path}/people.csv" }
+    let!(:erb_path) { File.join(fixtures_path, 'person.html.erb') }
+    let!(:csv_path) { File.join(fixtures_path, 'people.csv') }
 
     context 'Inexistent files' do
       let!(:wrong_erb_path) { 'spec/this/is/not/a/file' }
@@ -44,8 +44,8 @@ RSpec.describe CsvToHtml::CLI do
     context 'Existent files' do
       include FakeFS::SpecHelpers
 
-      let!(:output_path) { '/home/output' }
-      let(:file_list) { Dir.glob "#{output_path}/*" }
+      let!(:output_path) { File.join('/', 'home', 'output') }
+      let(:file_list) { Dir.glob File.join(output_path, '*') }
 
       before do
         FakeFS::FileSystem.clone fixtures_path
@@ -59,15 +59,16 @@ RSpec.describe CsvToHtml::CLI do
 
         it 'creates files in desired path' do
           expect(file_list.size).to eq 3
-          expect(file_list).to include "#{output_path}/1.html"
-          expect(file_list).to include "#{output_path}/2.html"
-          expect(file_list).to include "#{output_path}/3.html"
+          expect(file_list).to include File.join(output_path, '1.html')
+          expect(file_list).to include File.join(output_path, '2.html')
+          expect(file_list).to include File.join(output_path, '3.html')
         end
 
         it 'generates correct output' do
           file_list.each do |output|
             expect(File.read(output)).to eq \
-              File.read("#{fixtures_path}/output/#{File.basename(output)}")
+              File.read File.join(fixtures_path, 'output',
+                                  File.basename(output))
           end
         end
       end
@@ -84,8 +85,8 @@ RSpec.describe CsvToHtml::CLI do
 
         it 'reads the csv with specified delimiter' do
           expect(file_list.size).to eq 1
-          expect(File.read("#{output_path}/1.html")).to eq \
-            File.read("#{fixtures_path}/output/1.html")
+          expect(File.read(File.join(output_path, '1.html'))).to eq \
+            File.read(File.join(fixtures_path, 'output', '1.html'))
         end
       end
 
@@ -97,9 +98,9 @@ RSpec.describe CsvToHtml::CLI do
 
         it 'uses filename_col as filename' do
           expect(file_list.size).to eq 3
-          expect(file_list).to include "#{output_path}/Paul.html"
-          expect(file_list).to include "#{output_path}/John.html"
-          expect(file_list).to include "#{output_path}/Anne.html"
+          expect(file_list).to include File.join(output_path, 'Paul.html')
+          expect(file_list).to include File.join(output_path, 'John.html')
+          expect(file_list).to include File.join(output_path, 'Anne.html')
         end
       end
     end
