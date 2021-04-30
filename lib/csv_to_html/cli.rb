@@ -27,7 +27,7 @@ module CsvToHtml
         row = CsvToHtml::Row.new(row)
         filename = filename_col ? row.send(filename_col) : i
 
-        File.write "#{output_path}/#{filename}.html", row.render(erb)
+        File.write File.join(output_path, "#{filename}.html"), row.render(erb)
       end
     end
 
